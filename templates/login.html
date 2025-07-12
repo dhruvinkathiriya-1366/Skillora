@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skillora | Access</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"></script>
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="container" id="container">
+    <div class="info-panel">
+      <h1>Welcome to Skillora</h1>
+      <p>Exchange skills, grow faster.</p>
+      <ul class="benefits">
+        <li><i class="fas fa-repeat"></i> Peer-to-peer skill swapping</li>
+        <li><i class="fas fa-calendar-check"></i> Flexible time-based exchanges</li>
+        <li><i class="fas fa-star-half-stroke"></i> Post-swap feedback & rating</li>
+      </ul>
+    </div>
+
+    <div class="form-panel">
+      <div class="form-toggle">
+        <button id="loginBtn" class="active">Login</button>
+        <button id="registerBtn">Register</button>
+      </div>
+
+      <form id="loginForm" class="form active" method="POST" action="{{ url_for('login') }}">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+
+      <form id="registerForm" class="form" method="POST" action="{{ url_for('register') }}">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='login.js') }}"></script>
+</body>
+</html>
