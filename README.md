@@ -26,13 +26,19 @@ The platform encourages collaborative learning by allowing users to connect, com
 2.  Dhruvin Kathiriya            Frontend Developer
 3.  Yash Kumbhani                Content Preparation
 
-#Tech stack used:-
+# 💻 Tech Stack Used
 
-HTML5
-CSS3
-JavaScript (ES6)
-Flask (Python)
-MongoDB (Cloud)
-Font Awesome Icons
-Deployement on render
+- 🌐 **Frontend**:
+  - HTML5
+  - CSS3
+  - JavaScript (ES6)
+  - Font Awesome Icons
 
+- 🧠 **Backend**:
+  - Flask (Python)
+
+- 🗄️ **Database**:
+  - MongoDB (Cloud - MongoDB Atlas)
+
+- 🚀 **Deployment**:
+  - Render
