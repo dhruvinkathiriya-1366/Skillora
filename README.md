@@ -22,6 +22,6 @@ The platform encourages collaborative learning by allowing users to connect, com
 #  Team Members :-
 
    Name                       Role
-Jenil Lakkad(Team leader)    Backend Developer
-Dhruvin Kathiriya            Frontend Developer
-Yash Kumbhani                Content Preparation
+1.  Jenil Lakkad(Team leader)    Backend Developer
+2.  Dhruvin Kathiriya            Frontend Developer
+3.  Yash Kumbhani                Content Preparation
