@@ -25,3 +25,14 @@ The platform encourages collaborative learning by allowing users to connect, com
 1.  Jenil Lakkad(Team leader)    Backend Developer
 2.  Dhruvin Kathiriya            Frontend Developer
 3.  Yash Kumbhani                Content Preparation
+
+#Tech stack used:-
+
+HTML5
+CSS3
+JavaScript (ES6)
+Flask (Python)
+MongoDB (Cloud)
+Font Awesome Icons
+Deployement on render
+
