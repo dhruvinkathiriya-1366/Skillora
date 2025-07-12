@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Members | Skillora</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2><i class="fas fa-lightbulb"></i> Skillora</h2>
+  <nav>
+    <a href="{{ url_for('home') }}" class="{% if request.path == '/' %}active{% endif %}">
+        <i class="fas fa-home"></i> Home
+    </a>
+    <a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">
+        <i class="fas fa-circle-info"></i> About
+    </a>
+    <a href="{{ url_for('members') }}" class="{% if request.path == '/members' %}active{% endif %}">
+        <i class="fas fa-users"></i> Browse
+    </a>
+    <a href="{{ url_for('join') }}" class="{% if request.path == '/join' %}active{% endif %}">
+        <i class="fas fa-user-plus"></i> Join
+    </a>
+
+    {% if session.get('email') %}
+      <a href="{{ url_for('dashboard') }}"><i class="fas fa-gauge"></i> Dashboard</a>
+      <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    {% endif %}
+ </nav>
+</div>
+
+<!-- Profile Dropdown (top right) -->
+{% if session.get('email') %}
+<div class="profile-dropdown">
+  <div class="profile-trigger" onclick="toggleDropdown()">
+    <img src="{{ user.avatar or url_for('static', filename='default-avatar.png') }}" alt="Avatar">
+    <span>{{ user.name.split()[0] }}</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+  <div class="dropdown-menu" id="dropdownMenu">
+    <div class="user-info">
+      <img src="{{ user.avatar or url_for('static', filename='default-avatar.png') }}" alt="Avatar">
+      <p>{{ session['email'] }}</p>
+    </div>
+    <a href="{{ url_for('dashboard') }}"><i class="fas fa-gauge"></i> Dashboard</a>
+    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</div>
+{% endif %}
+
+
+<!-- Main Content -->
+<div class="content">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <h1><i class="fas fa-users"></i> Browse Skillora Members</h1>
+  <div class="search-wrapper">
+    <input type="text" id="searchInput" placeholder="Search by skill, name, or interest..." />
+    <i class="fas fa-search"></i>
+  </div>
+
+
+  <div class="card-grid" id="userCards">
+    {% for user in users %}
+    <div class="card">
+      <div class="card-header">
+        {% if user.avatar %}
+          <img class="avatar-img" src="{{ user.avatar }}" alt="{{ user.name }}">
+        {% else %}
+          <div class="avatar-initial"><img class="avatar-img" src="{{ url_for('static', filename='download.jpeg') }}" alt="{{ user.name[0]|upper }}"></div>
+        {% endif %}
+        <h3>{{ user.name }}</h3>
+      </div>
+
+      <div class="member-info">
+    <div class="info-row">
+      <i class="fas fa-calendar-alt"></i>
+      <span><strong>Availability:</strong> {{ user.availability or 'Not set' }}</span>
+    </div>
+    <div class="info-row">
+      <i class="fas fa-lightbulb"></i>
+      <span><strong>Skills Offered:</strong> {{ user.skills_offered | join(', ') or 'N/A' }}</span>
+    </div>
+    <div class="info-row">
+      <i class="fas fa-magnifying-glass"></i>
+      <span><strong>Skills Wanted:</strong> {{ user.skills_wanted | join(', ') or 'N/A' }}</span>
+    </div>
+  </div>
+
+
+      {% if session.get('email') %}
+        <a href="{{ url_for('send_request', to=user.email) }}" class="btn">Send Request</a>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="btn">Login to Request</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.getElementById("searchInput").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = text.includes(query) ? "block" : "none";
+    });
+  });
+  function toggleDropdown() {
+    const menu = document.getElementById("dropdownMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+
+  // Close on outside click
+  window.addEventListener("click", function (e) {
+    const trigger = document.querySelector(".profile-trigger");
+    const dropdown = document.getElementById("dropdownMenu");
+
+    if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+</script>
+
+</body>
+</html>

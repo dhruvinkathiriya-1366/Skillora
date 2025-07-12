@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | Skillora</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2><i class="fas fa-lightbulb"></i> Skillora</h2>
+  <nav>
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about') }}"><i class="fas fa-circle-info"></i> About</a>
+    <a href="{{ url_for('members') }}"><i class="fas fa-users"></i> Browse</a>
+    <a href="{{ url_for('dashboard') }}" class="active"><i class="fas fa-gauge"></i> Dashboard</a>
+    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+
+  </nav>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <h1>Welcome, {{ user.name }} <i class="fas fa-hand-wave"></i></h1>
+
+  <!-- Profile Section -->
+  <div class="profile-section">
+    <div class="avatar-block">
+      <img src="{{ user.avatar or url_for('static', filename='default-avatar.png') }}" alt="Avatar" id="avatarPreview">
+
+      <form method="POST" action="{{ url_for('upload_avatar') }}" enctype="multipart/form-data">
+        <input type="file" name="avatar" class="custom-file" onchange="previewAvatar(event)" accept="image/*">
+        <button type="submit" class="btn small">Update Avatar</button>
+      </form>
+    </div>
+
+    <div class="profile-form">
+      <form method="POST" action="{{ url_for('update_profile') }}">
+        <input type="text" name="name" placeholder="Name" value="{{ user.name }}">
+        <input type="text" name="availability" placeholder="Availability" value="{{ user.availability }}">
+        <textarea name="bio" placeholder="Short Bio">{{ user.bio or '' }}</textarea>
+        <button class="btn">Save Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Skills Section -->
+  <div class="skills-section">
+    <form method="POST" action="{{ url_for('update_skills') }}">
+      <h3><i class="fas fa-brain"></i> Skills Offered</h3>
+      <input type="text" name="skills_offered" placeholder="e.g. Python, Video Editing" value="{{ user.skills_offered | join(', ') }}">
+
+      <h3><i class="fas fa-magnifying-glass"></i> Skills Wanted</h3>
+      <input type="text" name="skills_wanted" placeholder="e.g. Public Speaking, AI" value="{{ user.skills_wanted | join(', ') }}">
+
+      <button class="btn">Update Skills</button>
+    </form>
+  </div>
+  
+
+  <!-- Requests Section -->
+  <section class="requests">
+  <h2><i class="fas fa-arrows-rotate"></i> Swap Requests</h2>
+  {% if user.swap_requests %}
+    <ul class="request-list">
+      {% for req in user.swap_requests %}
+        <li class="request-item">
+          <div class="req-info">
+            <img class="avatar-img" src="{{ user.avatar }}" alt="{{ user.name }}">
+            <div class="req-details">
+              <strong>From:</strong> {{ req.from }}<br>
+              <span class="status-tag {{ req.status }}">{{ req.status.capitalize() }}</span>
+            </div>
+          </div>
+          {% if req.status == 'pending' %}
+            <div class="req-actions">
+              <form method="POST" action="{{ url_for('accept_request', email=req.from) }}">
+                <button class="btn small accept">Accept</button>
+              </form>
+              <form method="POST" action="{{ url_for('decline_request', email=req.from) }}">
+                <button class="btn small decline">Decline</button>
+              </form>
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No swap requests yet.</p>
+  {% endif %}
+</section>
+
+
+<!-- JavaScript for Avatar Preview -->
+<script>
+  function previewAvatar(event) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      document.getElementById('avatarPreview').src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>
+
+</body>
+</html>

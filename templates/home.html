@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skillora | Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='home_main.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2><i class="fas fa-lightbulb"></i> Skillora</h2>
+  <nav>
+    <a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about') }}"><i class="fas fa-circle-info"></i> About</a>
+    <a href="{{ url_for('members') }}"><i class="fas fa-users"></i> Browse</a>
+    <a href="{{ url_for('join') }}"><i class="fas fa-user-plus"></i> Join</a>
+
+    {% if session.get('email') %}
+      <a href="{{ url_for('dashboard') }}"><i class="fas fa-gauge"></i> Dashboard</a>
+      <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    {% endif %}
+  </nav>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+  <section class="hero">
+    <div class="hero-text">
+      <div class="premium-badge" onclick="showComingSoon()">
+        <i class="fas fa-crown"></i> Premium Features <span class="soon-tag">Coming Soon</span>
+      </div>
+
+      <h1 class="fade-in">Swap Skills. Build Confidence.</h1>
+      <p class="fade-in-delay">Join a global network where teaching and learning go hand in hand — for free!</p>
+      <a href="{{ url_for('join') }}" class="btn animated-btn">Start Your Journey</a>
+    </div>
+    <div class="hero-img">
+      <img src="{{ url_for('static', filename='hero_section.jpg') }}" alt="Hero image" />
+    </div>
+  </section>
+</div>
+
+<!-- Premium Coming Soon Modal -->
+<!-- Premium Coming Soon Modal -->
+<div id="comingSoonModal" class="coming-soon-modal">
+  <div class="modal-content">
+    <h2><i class="fas fa-crown"></i> Premium Features</h2>
+    <p class="lead">We're building the future of skill exchange — tailored just for you.</p>
+
+    <ul class="feature-list">
+      <li><i class="fas fa-star"></i> Smart matchmaking system</li>
+      <li><i class="fas fa-user-shield"></i> Verified expert badges</li>
+      <li><i class="fas fa-comments"></i> Real-time mentoring rooms</li>
+      <li><i class="fas fa-rocket"></i> Priority listing in Browse</li>
+    </ul>
+
+    <p class="note">Coming in late 2025. Stay tuned! 🚀</p>
+
+    <button onclick="closeComingSoon()" class="btn">Close</button>
+  </div>
+</div>
+
+
+<script>
+  function showComingSoon() {
+    document.getElementById('comingSoonModal').style.display = 'flex';
+  }
+  function closeComingSoon() {
+    document.getElementById('comingSoonModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

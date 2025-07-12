@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Skillora</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="sidebar">
+  <h2><i class="fas fa-lightbulb"></i> Skillora</h2>
+  <nav>
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about') }}" class="active"><i class="fas fa-circle-info"></i> About</a>
+    <a href="{{ url_for('members') }}"><i class="fas fa-users"></i> Browse</a>
+    <a href="{{ url_for('join') }}"><i class="fas fa-user-plus"></i> Join</a>
+
+    {% if session.get('email') %}
+      <a href="{{ url_for('dashboard') }}"><i class="fas fa-gauge"></i> Dashboard</a>
+      <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    {% endif %}
+  </nav>
+</div>
+
+<div class="content">
+  <section class="about-section">
+    <h1><i class="fas fa-circle-info"></i> About Skillora</h1>
+    <p>
+      <strong>Skillora</strong> is a collaborative platform built for the <strong>Odoo Hackathon 2025</strong>, designed by tech enthusiasts to enable peer-to-peer skill exchange. Whether you're learning or teaching — you're growing!
+    </p>
+
+    <div class="features">
+      <div><i class="fas fa-arrows-rotate"></i> Skill Exchange</div>
+      <div><i class="fas fa-clock"></i> Flexible Timings</div>
+      <div><i class="fas fa-crown"></i> Premium Experience (Coming Soon)</div>
+    </div>
+
+    <div class="hackathon-tag">
+      <i class="fas fa-code"></i> Proudly crafted for <strong>Odoo Hackathon 2025</strong>
+    </div>
+
+    <h2><i class="fas fa-toolbox"></i> Resources Used</h2>
+    <ul class="tech-list">
+      <li><i class="fab fa-html5"></i> HTML5</li>
+      <li><i class="fab fa-css3-alt"></i> CSS3</li>
+      <li><i class="fab fa-js-square"></i> JavaScript (ES6)</li>
+      <li><i class="fas fa-fire"></i> Flask (Python)</li>
+      <li><i class="fas fa-database"></i> MongoDB (Cloud)</li>
+      <li><i class="fas fa-icons"></i> Font Awesome Icons</li>
+    </ul>
+</section>
+
+
+</div>
+
+</body>
+</html>
